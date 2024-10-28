@@ -277,9 +277,9 @@ multiplicar:
 	jmp _start
  
 dividir:
-
-	mov al, [num2]           ; Cargar el primer dígito de num2 en AL
-   	sub al, '0'              ; Convertir de ASCII a decimal
+    	; Cargar y convertir el segundo número (denominador) desde ASCII a decimal
+    	mov al, [num2]           ; Cargar el primer dígito de num2 en AL
+    	sub al, '0'              ; Convertir de ASCII a decimal
     	mov ah, 10
     	mul ah                   ; Multiplicar el primer dígito por 10 para las decenas
     	mov ah, [num2+1]         ; Cargar el segundo dígito de num2
@@ -289,54 +289,54 @@ dividir:
 
     	; Verificar si num2 es cero
     	cmp bl, 0                ; Comparar BL con 0
-    	je divisionPorcero
+    	je divisionPorcero       ; Si es cero, saltar a manejo de error
 
-	; Movemos los numeros ingresados a los registro AL y BL
-	mov al, [num1]
-	mov bl, [num2]
- 
-	; Igualamos a cero los registros DX y AH
-	mov dx, 0
-	mov ah, 0
- 
-	; Convertimos los valores ingresados de ascii a decimal
-	sub al, '0'
-	sub bl, '0'
- 
-	; Division. AL = AX / BL. AX = AH:AL
-	div bl
- 
-	; Convertimos el resultado de la resta de decimal a ascii
-	add ax, '0'
- 
-	; Movemos el resultado a un espacio reservado en la memoria
-	mov [resultado], ax
- 
-	; Print on screen the message 9
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg10
-	mov edx, lmsg10
-	int 80h
- 
-	; Imprimimos en pantalla el resultado
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, resultado
-	mov edx, 1
-	int 80h
- 
-	; Finalizamos el programa
-	jmp _start
+    	; Cargar y convertir el primer número (numerador) desde ASCII a decimal
+    	mov al, [num1]           ; Cargar el primer dígito de num1
+    	sub al, '0'              ; Convertir de ASCII a decimal
+    	mov ah, 10
+    	mul ah                   ; Multiplicar el primer dígito por 10 para las decenas
+    	mov ah, [num1+1]         ; Cargar el segundo dígito de num1
+    	sub ah, '0'              ; Convertir a decimal
+    	add al, ah               ; Sumar las decenas y unidades para obtener el valor completo de num1 en AL
+
+    	; Preparar registros para la división
+    	mov ah, 0                ; Limpiar AH para que AX tenga el valor de num1
+    	mov dx, 0                ; Limpiar DX para la división
+
+    	; División: AL = AX / BL
+    	div bl                   ; AL contendrá el resultado de la división
+
+    	; Convertir el resultado a ASCII para imprimir
+    	add al, '0'              ; Convertir de decimal a ASCII
+    	mov [resultado], al      ; Guardar el resultado en memoria
+
+    	; Imprimir el mensaje de resultado
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, msg10
+    	mov edx, lmsg10
+    	int 80h
+
+    	; Imprimir el resultado
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, resultado
+    	mov edx, 1
+    	int 80h
+
+    	; Finalizar
+    	jmp _start
 
 divisionPorcero:
+    	; Manejo de error por división entre cero
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, msg11
+    	mov edx, lmsg11
+    	int 80h
+    	jmp _start
 
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg12
-	mov edx, lmsg12
-	int 80h
-	jmp _start
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
 	mov eax, 4
