@@ -12,7 +12,6 @@ section .bss
     resultado resd 1
     opcion resb 1
     buffer resb 50
-    buffer_num resb 12
 
 section .text
     global _start
@@ -57,11 +56,14 @@ suma:
     jmp main_loop
 
 leer_ambos_numeros:
+    ; Mostrar mensaje para ingresar ambos números
     mov eax, 4
     mov ebx, 1
     mov ecx, prompt
     mov edx, 44   ; Longitud de "Ingresa ambos numeros separados por un espacio: "
     int 0x80
+
+    ; Leer entrada del usuario
     mov eax, 3
     mov ebx, 0
     mov ecx, buffer
@@ -114,13 +116,12 @@ mostrar_resultado:
     int 0x80
 
     mov eax, [resultado]
-    mov ecx, buffer_num
-    mov edi, ecx
+    mov ecx, buffer
     call itoa
 
     mov eax, 4
     mov ebx, 1
-    mov ecx, edi
+    mov ecx, buffer
     mov edx, 12
     int 0x80
 
