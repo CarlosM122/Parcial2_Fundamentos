@@ -34,6 +34,9 @@ section .data
  
 	msg11		db		10,'Opcion Invalida',10,0
 	lmsg11		equ		$ - msg11
+
+	mesg12          db              10,'Division por 0 es invalida',0
+	lmsg12          equ             $ - msg12
  
 	nlinea		db		10,10,0
 	lnlinea		equ		$ - nlinea
@@ -274,7 +277,8 @@ multiplicar:
 	jmp _start
  
 dividir:
- 
+ 	cmp [num2], 0
+	je divisionPorcero
 	; Movemos los numeros ingresados a los registro AL y BL
 	mov al, [num1]
 	mov bl, [num2]
@@ -312,6 +316,15 @@ dividir:
  
 	; Finalizamos el programa
 	jmp _start
+
+divisionPorCero:
+
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, msg12
+	mov edx, lmsg12
+	int 80h
+	jm _start
  
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
