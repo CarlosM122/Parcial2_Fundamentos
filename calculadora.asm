@@ -50,8 +50,8 @@ main_loop:
     jmp main_loop
 
 suma:
-    call leer_numero1
-    call leer_numero2
+    call leer_numero1   ; Leer el primer número
+    call leer_numero2   ; Leer el segundo número
     mov eax, [num1]
     add eax, [num2]
     mov [resultado], eax
