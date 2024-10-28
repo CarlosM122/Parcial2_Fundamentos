@@ -314,14 +314,14 @@ dividir:
 	jmp _start
  
 salir:
-    	; Imprimimos en pantalla dos nuevas lineas
-    	mov eax, 4
-    	mov ebx, 1
-    	mov ecx, nlinea
-    	mov edx, lnlinea
-    	int 80h
-
-    	; Finalizamos el programa
-    	mov eax, 1
-    	mov ebx, 0
-    	int 80h
+	; Imprimimos en pantalla dos nuevas lineas
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, nlinea
+	mov edx, lnlinea
+	int 80h
+ 
+	; Finalizamos el programa
+	mov eax, 1
+	mov ebx, 0
+	int 80h
