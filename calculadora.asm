@@ -259,39 +259,38 @@ multiplicar:
    jmp salir
  
 dividir:
-   ; Guardamos los numeros en los registros ax y bl
-   mov ax, [num1]
-   mov bl, [num2]
- 
-   ; Conversion de ascii a decimal
-   sub ax, '0'
-   sub bl, '0'
- 
-   ; Division. AL = AX / BL
-   div bl
- 
-   ; Conversion decimal a ascii
-   add al, '0'
- 
-   ; Movemos el resultado
-   mov [result], al
- 
-   ; Imprimimos el mensaje 9
-   mov eax, 4
-   mov ebx, 1
-   mov ecx, msg9
-   mov edx, lmsg9
-   int 80h
- 
-   ; Imprimimos el resultado
-   mov eax, 4
-   mov ebx, 1
-   mov ecx, result
-   mov edx, 1
-   int 80h
- 
-   ; Finalizamos el programa
-   jmp salir
+	; Guardamos los numeros en los registros ax y bl
+	mov dx, 0
+	mov ax, [num1]
+	mov bx, [num2]
+
+	; Conversion de ascii a decimal
+	sub ax, '0'
+	sub bx, '0'
+	; Division. AX = DX:AX / BX
+	div bx
+
+	; Conversion decimal a ascii
+	add ax, '0'
+	; Movemos el resultado
+	mov [result], ax
+
+	; Imprimimos el mensaje 9
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, msg9
+	mov edx, lmsg9
+	int 80h
+
+	; Imprimimos el resultado
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, result
+	mov edx, 1
+	int 80h
+
+	; Finalizamos el programa
+	jmp salir
  
 salir:
    ; Imprimimos dos nuevas lineas
