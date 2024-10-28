@@ -1,11 +1,16 @@
 section .data
-    menu db "Seleccione una operación:", 10, 0
-    menu_opciones db "1. Suma", 10, "2. Resta", 10, "3. Multiplicacion", 10, "4. Division", 10, "5. Salir", 10, 0
-
-    mensaje_num1 db "Ingrese el primer número:", 10, 0
-    mensaje_num2 db "Ingrese el segundo número:", 10, 0
-    resultado_msg db "Resultado: ", 0
-    error_division db "Error: División por cero no permitida", 10, 0
+    menu db "1. Suma", 0xA
+         db "2. Resta", 0xA
+         db "3. Multiplicacion", 0xA
+         db "4. Division", 0xA
+         db "5. Modulo", 0xA
+         db "6. Salir", 0xA, 0
+    prompt1 db "Ingresa el primer numero: ", 0
+    prompt2 db "Ingresa el segundo numero: ", 0
+    prompt_op db "Selecciona la operacion (1-6): ", 0
+    result_msg db "El resultado es: ", 0
+    error_division db "Error: Division por cero.", 0xA, 0
+    newline db 0xA, 0
 
 section .bss
     num1 resd 1
@@ -19,22 +24,21 @@ section .text
     global _start
 
 _start:
-    ; Bucle principal del menú
 main_loop:
-    ; Mostrar menú de opciones
+    ; Mostrar menú
     mov eax, 4
     mov ebx, 1
     mov ecx, menu
-    mov edx, 26   ; Longitud de "Seleccione una operación:"
-    int 0x80
-
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, menu_opciones
-    mov edx, 37   ; Longitud de las opciones del menú
+    mov edx, 55  ; Longitud del menú
     int 0x80
 
     ; Leer la opción del usuario
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, prompt_op
+    mov edx, 31  ; Longitud de "Selecciona la operacion (1-6): "
+    int 0x80
+
     mov eax, 3
     mov ebx, 0
     mov ecx, opcion
@@ -43,7 +47,7 @@ main_loop:
 
     ; Procesar opción seleccionada
     mov al, byte [opcion]
-    sub al, '0'  ; Convertir de carácter ASCII a número
+    sub al, '0'
     cmp al, 1
     je suma
     cmp al, 2
@@ -53,10 +57,11 @@ main_loop:
     cmp al, 4
     je division
     cmp al, 5
+    je modulo
+    cmp al, 6
     je salir
     jmp main_loop
 
-; Función de suma
 suma:
     call leer_numero1
     call leer_numero2
@@ -66,7 +71,6 @@ suma:
     call mostrar_resultado
     jmp main_loop
 
-; Función de resta
 resta:
     call leer_numero1
     call leer_numero2
@@ -76,7 +80,6 @@ resta:
     call mostrar_resultado
     jmp main_loop
 
-; Función de multiplicación
 multiplicacion:
     call leer_numero1
     call leer_numero2
@@ -86,7 +89,6 @@ multiplicacion:
     call mostrar_resultado
     jmp main_loop
 
-; Función de división
 division:
     call leer_numero1
     call leer_numero2
@@ -100,37 +102,47 @@ division:
     call mostrar_resultado
     jmp main_loop
 
+modulo:
+    call leer_numero1
+    call leer_numero2
+    mov eax, [num2]
+    cmp eax, 0
+    je error_div_cero
+    mov eax, [num1]
+    cdq
+    idiv dword [num2]
+    mov [resultado], edx
+    call mostrar_resultado
+    jmp main_loop
+
 error_div_cero:
     mov eax, 4
     mov ebx, 1
     mov ecx, error_division
-    mov edx, 32   ; Longitud de "Error: División por cero no permitida"
+    mov edx, 24   ; Longitud de "Error: Division por cero."
     int 0x80
     jmp main_loop
 
-; Leer el primer número
 leer_numero1:
     mov eax, 4
     mov ebx, 1
-    mov ecx, mensaje_num1
-    mov edx, 27   ; Longitud de "Ingrese el primer número:"
+    mov ecx, prompt1
+    mov edx, 26   ; Longitud de "Ingresa el primer numero: "
     int 0x80
     call leer_numero
     mov [num1], eax
     ret
 
-; Leer el segundo número
 leer_numero2:
     mov eax, 4
     mov ebx, 1
-    mov ecx, mensaje_num2
-    mov edx, 28   ; Longitud de "Ingrese el segundo número:"
+    mov ecx, prompt2
+    mov edx, 27   ; Longitud de "Ingresa el segundo numero: "
     int 0x80
     call leer_numero
     mov [num2], eax
     ret
 
-; Leer número completo (incluye soporte para negativos)
 leer_numero:
     mov eax, 3
     mov ebx, 0
@@ -161,12 +173,11 @@ fin_conversion:
 fin_conversion2:
     ret
 
-; Mostrar resultado (convertir número a texto para mostrar)
 mostrar_resultado:
     mov eax, 4
     mov ebx, 1
-    mov ecx, resultado_msg
-    mov edx, 11   ; Longitud de "Resultado: "
+    mov ecx, result_msg
+    mov edx, 17   ; Longitud de "El resultado es: "
     int 0x80
 
     mov eax, [resultado]
@@ -183,11 +194,11 @@ mostrar_resultado:
     ; Salto de línea después del resultado
     mov eax, 4
     mov ebx, 1
-    mov ecx, 10
+    mov ecx, newline
+    mov edx, 1
     int 0x80
     ret
 
-; Convertir entero a ASCII (itoa)
 itoa:
     mov edi, ecx
     mov ebx, 10
@@ -214,7 +225,11 @@ mostrar_bucle:
     mov byte [edi], 0
     ret
 
-; Salir del programa
+salir:
+    mov eax, 1
+    mov ebx, 0
+    int 0x80
+
 salir:
     mov eax, 1
     mov ebx, 0
