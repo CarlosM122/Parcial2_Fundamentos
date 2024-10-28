@@ -278,10 +278,18 @@ multiplicar:
  
 dividir:
 
-	mov al, [num2]
-	sub ah, '0'
- 	cmp al, 0
-	je divisionPorcero
+	mov al, [num2]           ; Cargar el primer dígito de num2 en AL
+   	sub al, '0'              ; Convertir de ASCII a decimal
+    	mov ah, 10
+    	mul ah                   ; Multiplicar el primer dígito por 10 para las decenas
+    	mov ah, [num2+1]         ; Cargar el segundo dígito de num2
+    	sub ah, '0'              ; Convertir a decimal
+    	add al, ah               ; Sumar las decenas y unidades para obtener el valor completo de num2 en AL
+    	mov bl, al               ; Guardar el valor convertido en BL para la división
+
+    	; Verificar si num2 es cero
+    	cmp bl, 0                ; Comparar BL con 0
+    	je divisionPorcero
 
 	; Movemos los numeros ingresados a los registro AL y BL
 	mov al, [num1]
