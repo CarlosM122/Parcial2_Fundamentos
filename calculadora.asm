@@ -35,7 +35,7 @@ section .data
 	msg11		db		10,'Opcion Invalida',10,0
 	lmsg11		equ		$ - msg11
 
-	mesg12          db              10,'Division por 0 es invalida',0
+	msg12           db              10,'Division por 0 es invalida',0
 	lmsg12          equ             $ - msg12
  
 	nlinea		db		10,10,0
@@ -317,7 +317,7 @@ dividir:
 	; Finalizamos el programa
 	jmp _start
 
-divisionPorCero:
+divisionPorcero:
 
 	mov eax, 4
 	mov ebx, 1
