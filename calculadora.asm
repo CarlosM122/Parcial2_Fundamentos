@@ -195,24 +195,24 @@ sumar:
     	jmp print_result
 
 print_result_single_digit:
-    add al, '0'
-    mov [resultado], al
+   	add al, '0'
+    	mov [resultado], al
 
 print_result:
-    ; Mostrar el mensaje de resultado
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, msg9
-    mov edx, lmsg9
-    int 80h
+    	; Mostrar el mensaje de resultado
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, msg9
+    	mov edx, lmsg9
+    	int 80h
 
-    ; Imprimir el resultado en pantalla
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, resultado
-    mov edx, 2          ; Cambiar a 2 para imprimir dos caracteres
-    int 80h
-    jmp salir
+    	; Imprimir el resultado en pantalla
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, resultado
+    	mov edx, 2          ; Cambiar a 2 para imprimir dos caracteres
+	int 80h
+    	jmp salir
  
  
 restar:
