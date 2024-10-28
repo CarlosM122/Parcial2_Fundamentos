@@ -52,7 +52,6 @@ section .text
 	global _start
  
 _start:
-ciclo:
 	; Imprimimos en pantalla el mensaje 1
 	mov eax, 4
 	mov ebx, 1
@@ -162,11 +161,11 @@ ciclo:
 	; la ejecucion del programa
 	mov eax, 4
 	mov ebx, 1
-	mov ecx, msg10
-	mov edx, lmsg10
+	mov ecx, msg11
+	mov edx, lmsg11
 	int 80h
  
-	jmp salir
+	jmp _start
  
 sumar:
 	; Movemos los numeros ingresados a los registro AL y BL
@@ -189,8 +188,8 @@ sumar:
 	; Imprimimos en pantalla el mensaje 9
 	mov eax, 4
 	mov ebx, 1
-	mov ecx, msg9
-	mov edx, lmsg9
+	mov ecx, msg10
+	mov edx, lmsg10
 	int 80h
  
 	; Imprimimos en pantalla el resultado
@@ -201,7 +200,7 @@ sumar:
 	int 80h
  
 	; Finalizamos el programa
-	jmp ciclo
+	jmp _start
  
 restar:
 	; Movemos los numeros ingresados a los registro AL y BL
@@ -224,8 +223,8 @@ restar:
 	; Imprimimos en pantalla el mensaje 9
 	mov eax, 4
 	mov ebx, 1
-	mov ecx, msg9
-	mov edx, lmsg9
+	mov ecx, msg10
+	mov edx, lmsg10
 	int 80h
  
 	; Imprimimos en pantalla el resultado
@@ -236,7 +235,7 @@ restar:
 	int 80h
  
 	; Finalizamos el programa
-	jmp ciclo
+	jmp _start
  
 multiplicar:
  
@@ -260,8 +259,8 @@ multiplicar:
 	; Imprimimos en pantalla el mensaje 9
 	mov eax, 4
 	mov ebx, 1
-	mov ecx, msg9
-	mov edx, lmsg9
+	mov ecx, msg10
+	mov edx, lmsg10
 	int 80h
  
 	; Imprimimos en pantalla el resultado
@@ -272,7 +271,7 @@ multiplicar:
 	int 80h
  
 	; Finalizamos el programa
-	jmp ciclo
+	jmp _start
  
 dividir:
  
@@ -300,8 +299,8 @@ dividir:
 	; Print on screen the message 9
 	mov eax, 4
 	mov ebx, 1
-	mov ecx, msg9
-	mov edx, lmsg9
+	mov ecx, msg10
+	mov edx, lmsg10
 	int 80h
  
 	; Imprimimos en pantalla el resultado
@@ -312,7 +311,7 @@ dividir:
 	int 80h
  
 	; Finalizamos el programa
-	jmp ciclo
+	jmp _start
  
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
