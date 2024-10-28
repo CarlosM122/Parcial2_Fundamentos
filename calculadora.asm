@@ -292,7 +292,23 @@ dividir:
  
 	; Finalizamos el programa
 	jmp salir
- 
+
+single_digit:
+    	add al, '0'
+    	mov [resultado], al
+
+print_result:
+   	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, msg9
+    	mov edx, lmsg9
+    	int 80h
+    	mov eax, 4
+    	mov ebx, 1
+    	mov ecx, resultado
+    	mov edx, 2
+    	int 80h
+    	jmp salir
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
 	mov eax, 4
@@ -305,30 +321,3 @@ salir:
 	mov eax, 1
 	mov ebx, 0
 	int 80h
-
-single_digit:
-    add al, '0'
-    mov [resultado], al
-
-print_result:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, msg9
-    mov edx, lmsg9
-    int 80h
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, resultado
-    mov edx, 2
-    int 80h
-    jmp salir
-
-salir:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, nlinea
-    mov edx, lnlinea
-    int 80h
-    mov eax, 1
-    mov ebx, 0
-    int 80h
