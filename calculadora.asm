@@ -324,8 +324,7 @@ divisionPorCero:
 	mov ecx, msg12
 	mov edx, lmsg12
 	int 80h
-	jm _start
- 
+	jmp _start
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
 	mov eax, 4
