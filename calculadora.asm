@@ -1,8 +1,7 @@
 section .data
     menu db "1. Suma", 0xA
          db "2. Salir", 0xA, 0
-    prompt1 db "Ingresa el primer numero: ", 0
-    prompt2 db "Ingresa el segundo numero: ", 0
+    prompt db "Ingresa ambos numeros separados por un espacio: ", 0
     prompt_op db "Selecciona la operacion (1-2): ", 0
     result_msg db "El resultado es: ", 0
     newline db 0xA, 0
@@ -50,41 +49,40 @@ main_loop:
     jmp main_loop
 
 suma:
-    call leer_numero1   ; Leer el primer número
-    call leer_numero2   ; Leer el segundo número
+    call leer_ambos_numeros   ; Leer ambos números en una sola entrada
     mov eax, [num1]
     add eax, [num2]
     mov [resultado], eax
     call mostrar_resultado
     jmp main_loop
 
-leer_numero1:
+leer_ambos_numeros:
     mov eax, 4
     mov ebx, 1
-    mov ecx, prompt1
-    mov edx, 26   ; Longitud de "Ingresa el primer numero: "
+    mov ecx, prompt
+    mov edx, 44   ; Longitud de "Ingresa ambos numeros separados por un espacio: "
     int 0x80
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, buffer
+    mov edx, 50   ; Tamaño máximo de entrada
+    int 0x80
+
+    ; Convertir el primer número
+    mov ecx, buffer
     call leer_numero
     mov [num1], eax
-    ret
 
-leer_numero2:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, prompt2
-    mov edx, 27   ; Longitud de "Ingresa el segundo numero: "
-    int 0x80
+    ; Saltar el espacio entre los números
+    add ecx, 1
+
+    ; Convertir el segundo número
     call leer_numero
     mov [num2], eax
     ret
 
 leer_numero:
-    mov eax, 3
-    mov ebx, 0
-    mov ecx, buffer
-    mov edx, 12
-    int 0x80
-    mov ecx, buffer
+    ; Convierte una cadena de dígitos en un número en EAX
     xor eax, eax
     xor ebx, ebx
     mov bl, [ecx]
