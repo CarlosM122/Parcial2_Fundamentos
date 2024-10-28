@@ -24,16 +24,16 @@ section .data
 	lmsg7		equ		$ - msg7
 
 	msg8		db		'5. Salir',10,0
-	lmsg7		equ		$ - msg8
+	lmsg8		equ		$ - msg8
  
 	msg9		db		'Opcion: ',0
-	lmsg8		equ		$ - msg9
+	lmsg9		equ		$ - msg9
  
 	msg10		db		10,'Resultado: ',0
-	lmsg9		equ		$ - msg10
+	lmsg10		equ		$ - msg10
  
 	msg11		db		10,'Opcion Invalida',10,0
-	lmsg10		equ		$ - msg11
+	lmsg11		equ		$ - msg11
  
 	nlinea		db		10,10,0
 	lnlinea		equ		$ - nlinea
