@@ -66,7 +66,7 @@ _start:
     mov eax, 3
     mov ebx, 0
     mov ecx, num1
-    mov edx, 2              ; Leer dos caracteres
+    mov edx, 3              ; Leer dos caracteres
     int 80h
 
     ; Convertir entrada a decimal para num1
@@ -90,7 +90,7 @@ _start:
     mov eax, 3
     mov ebx, 0
     mov ecx, num2
-    mov edx, 2
+    mov edx, 3
     int 80h
 
     ; Convertir entrada a decimal para num2
