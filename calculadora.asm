@@ -40,9 +40,9 @@ section .bss
 	; Espacios en la memoria reservados para almacenar los valores introducidos por el usuario y el resultado de la operacion.
  
 	opcion:		resb 	2
-	num1:		resb	2
-	num2:		resb 	2
-	resultado:	resb 	2
+	num1:		resb	3
+	num2:		resb 	3
+	resultado:	resb 	5
  
 section .text
  
@@ -70,6 +70,16 @@ _start:
 	mov ecx, num1
 	mov edx, 2
 	int 80h
+
+        ; Convertir entrada a decimal
+        mov al, [num1]     ; Primer dígito
+        sub al, '0'
+        mov ah, 10
+        mul ah            ; Multiplicar el primer dígito por 10
+        mov ah, [num1+1]  ; Segundo dígito
+        sub ah, '0'
+        add al, ah        ; Sumar el segundo dígito
+        mov [num1], al    ; Guardar el número completo en num1
  
 	; Imprimimos en pantalla el mensaje 3
 	mov eax, 4
@@ -84,6 +94,15 @@ _start:
 	mov ecx, num2
 	mov edx, 2
 	int 80h
+
+        mov al, [num2]
+	sub al, '0'
+	mov ah, 10
+	mul ah
+	mov ah, [num2+1]
+	sub ah, '0'
+	add al, ah
+	mov [num2], al
  
 	; Imprimimos en pantalla el mensaje 4
 	mov eax, 4
@@ -160,35 +179,41 @@ sumar:
 	mov al, [num1]
 	mov bl, [num2]
  
-	; Convertimos los valores ingresados de ascii a decimal
-	sub al, '0'
-	sub bl, '0'
- 
 	; Sumamos el registro AL y BL
 	add al, bl
+
+	cmp al, 10
+    	jl print_result_single_digit 
  
-	; Convertimos el resultado de la suma de decimal a ascii
-	add al, '0'
+	mov ah, 0          ; Limpiar el registro AH
+    	div byte [divisor] ; Dividir AL entre 10
+    	add ah, '0'        ; Convertir el primer dígito a ASCII
+    	mov [resultado], ah
+
+    	add al, '0'        ; Convertir el segundo dígito a ASCII
+    	mov [resultado+1], al
+    	jmp print_result
+
+print_result_single_digit:
+    add al, '0'
+    mov [resultado], al
+
+print_result:
+    ; Mostrar el mensaje de resultado
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg9
+    mov edx, lmsg9
+    int 80h
+
+    ; Imprimir el resultado en pantalla
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, resultado
+    mov edx, 2          ; Cambiar a 2 para imprimir dos caracteres
+    int 80h
+    jmp salir
  
-	; Movemos el resultado a un espacio reservado en la memoria
-	mov [resultado], al
- 
-	; Imprimimos en pantalla el mensaje 9
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg9
-	mov edx, lmsg9
-	int 80h
- 
-	; Imprimimos en pantalla el resultado
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, resultado
-	mov edx, 2
-	int 80h
- 
-	; Finalizamos el programa
-	jmp salir
  
 restar:
 	; Movemos los numeros ingresados a los registro AL y BL
