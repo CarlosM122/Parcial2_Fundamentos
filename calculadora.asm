@@ -182,6 +182,130 @@ sumar:
     mov [resultado+1], al
     jmp print_result
 
+restar:
+	; Movemos los numeros ingresados a los registro AL y BL
+	mov al, [num1]
+	mov bl, [num2]
+ 
+	; Convertimos los valores ingresados de ascii a decimal
+	sub al, '0'
+	sub bl, '0'
+ 
+	; Restamos el registro AL y BL
+	sub al, bl
+ 
+	; Convertimos el resultado de la resta de decimal a ascii
+	add al, '0'
+ 
+	; Movemos el resultado a un espacio reservado en la memoria
+	mov [resultado], al
+ 
+	; Imprimimos en pantalla el mensaje 9
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, msg9
+	mov edx, lmsg9
+	int 80h
+ 
+	; Imprimimos en pantalla el resultado
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, resultado
+	mov edx, 1
+	int 80h
+ 
+	; Finalizamos el programa
+	jmp salir
+ 
+multiplicar:
+ 
+	; Movemos los numeros ingresados a los registro AL y BL
+	mov al, [num1]
+	mov bl, [num2]
+ 
+	; Convertimos los valores ingresados de ascii a decimal
+	sub al, '0'
+	sub bl, '0'
+ 
+	; Multiplicamos. AX = AL X BL
+	mul bl
+ 
+	; Convertimos el resultado de la resta de decimal a ascii
+	add ax, '0'
+ 
+	; Movemos el resultado a un espacio reservado en la memoria
+	mov [resultado], ax
+ 
+	; Imprimimos en pantalla el mensaje 9
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, msg9
+	mov edx, lmsg9
+	int 80h
+ 
+	; Imprimimos en pantalla el resultado
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, resultado
+	mov edx, 1
+	int 80h
+ 
+	; Finalizamos el programa
+	jmp salir
+ 
+dividir:
+ 
+	; Movemos los numeros ingresados a los registro AL y BL
+	mov al, [num1]
+	mov bl, [num2]
+ 
+	; Igualamos a cero los registros DX y AH
+	mov dx, 0
+	mov ah, 0
+ 
+	; Convertimos los valores ingresados de ascii a decimal
+	sub al, '0'
+	sub bl, '0'
+ 
+	; Division. AL = AX / BL. AX = AH:AL
+	div bl
+ 
+	; Convertimos el resultado de la resta de decimal a ascii
+	add ax, '0'
+ 
+	; Movemos el resultado a un espacio reservado en la memoria
+	mov [resultado], ax
+ 
+	; Print on screen the message 9
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, msg9
+	mov edx, lmsg9
+	int 80h
+ 
+	; Imprimimos en pantalla el resultado
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, resultado
+	mov edx, 1
+	int 80h
+ 
+	; Finalizamos el programa
+	jmp salir
+ 
+salir:
+	; Imprimimos en pantalla dos nuevas lineas
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, nlinea
+	mov edx, lnlinea
+	int 80h
+ 
+	; Finalizamos el programa
+	mov eax, 1
+	mov ebx, 0
+	int 80h
+
 single_digit:
     add al, '0'
     mov [resultado], al
