@@ -1,15 +1,10 @@
 section .data
     menu db "1. Suma", 0xA
-         db "2. Resta", 0xA
-         db "3. Multiplicacion", 0xA
-         db "4. Division", 0xA
-         db "5. Modulo", 0xA
-         db "6. Salir", 0xA, 0
+         db "2. Salir", 0xA, 0
     prompt1 db "Ingresa el primer numero: ", 0
     prompt2 db "Ingresa el segundo numero: ", 0
-    prompt_op db "Selecciona la operacion (1-6): ", 0
+    prompt_op db "Selecciona la operacion (1-2): ", 0
     result_msg db "El resultado es: ", 0
-    error_division db "Error: Division por cero.", 0xA, 0
     newline db 0xA, 0
 
 section .bss
@@ -29,14 +24,14 @@ main_loop:
     mov eax, 4
     mov ebx, 1
     mov ecx, menu
-    mov edx, 55  ; Longitud del menú
+    mov edx, 20  ; Longitud del menú
     int 0x80
 
     ; Leer la opción del usuario
     mov eax, 4
     mov ebx, 1
     mov ecx, prompt_op
-    mov edx, 31  ; Longitud de "Selecciona la operacion (1-6): "
+    mov edx, 30  ; Longitud de "Selecciona la operacion (1-2): "
     int 0x80
 
     mov eax, 3
@@ -51,14 +46,6 @@ main_loop:
     cmp al, 1
     je suma
     cmp al, 2
-    je resta
-    cmp al, 3
-    je multiplicacion
-    cmp al, 4
-    je division
-    cmp al, 5
-    je modulo
-    cmp al, 6
     je salir
     jmp main_loop
 
@@ -69,58 +56,6 @@ suma:
     add eax, [num2]
     mov [resultado], eax
     call mostrar_resultado
-    jmp main_loop
-
-resta:
-    call leer_numero1
-    call leer_numero2
-    mov eax, [num1]
-    sub eax, [num2]
-    mov [resultado], eax
-    call mostrar_resultado
-    jmp main_loop
-
-multiplicacion:
-    call leer_numero1
-    call leer_numero2
-    mov eax, [num1]
-    imul eax, [num2]
-    mov [resultado], eax
-    call mostrar_resultado
-    jmp main_loop
-
-division:
-    call leer_numero1
-    call leer_numero2
-    mov eax, [num2]
-    cmp eax, 0
-    je error_div_cero
-    mov eax, [num1]
-    cdq
-    idiv dword [num2]
-    mov [resultado], eax
-    call mostrar_resultado
-    jmp main_loop
-
-modulo:
-    call leer_numero1
-    call leer_numero2
-    mov eax, [num2]
-    cmp eax, 0
-    je error_div_cero
-    mov eax, [num1]
-    cdq
-    idiv dword [num2]
-    mov [resultado], edx
-    call mostrar_resultado
-    jmp main_loop
-
-error_div_cero:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, error_division
-    mov edx, 24   ; Longitud de "Error: Division por cero."
-    int 0x80
     jmp main_loop
 
 leer_numero1:
