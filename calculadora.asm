@@ -277,8 +277,12 @@ multiplicar:
 	jmp _start
  
 dividir:
- 	cmp [num2], 0
+
+	mov al, [num2]
+	sub ah, '0'
+ 	cmp al, 0
 	je divisionPorcero
+
 	; Movemos los numeros ingresados a los registro AL y BL
 	mov al, [num1]
 	mov bl, [num2]
