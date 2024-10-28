@@ -68,7 +68,7 @@ _start:
 	mov eax, 3
 	mov ebx, 0
 	mov ecx, num1
-	mov edx, 2
+	mov edx, 3
 	int 80h
 
         ; Convertir entrada a decimal
@@ -92,7 +92,7 @@ _start:
 	mov eax, 3
 	mov ebx, 0
 	mov ecx, num2
-	mov edx, 2
+	mov edx, 3
 	int 80h
 
         mov al, [num2]
