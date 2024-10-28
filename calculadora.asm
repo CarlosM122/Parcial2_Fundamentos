@@ -46,9 +46,9 @@ section .bss
 	; Espacios en la memoria reservados para almacenar los valores introducidos por el usuario y el resultado de la operacion.
  
 	opcion:		resb 	2
-	num1:		resb	2
-	num2:		resb 	2
-	resultado:	resb 	2
+	num1:		resb	3
+	num2:		resb 	3
+	resultado:	resb 	3
  
 section .text
  
