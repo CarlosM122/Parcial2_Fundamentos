@@ -257,13 +257,9 @@ mostrar_resultado:
 	call limpiar_resultado
 
 limpiar_resultado:
-    	mov ecx, 10                ; Número de bytes a limpiar
-    	lea edi, [resultado]        ; Apunta al inicio de "resultado" usando LEA
-limpiar_loop:
-    	mov byte [edi], 0           ; Establece cada byte en 0
-    	inc edi                     ; Avanza al siguiente byte
-    	loop limpiar_loop           ; Disminuye ecx y repite hasta que llegue a 0
-    	ret
+    	mov ecx, resultado
+    	mov edx, 10
+	jmp _start
 
 ; Función para convertir ASCII a decimal (num1)
 ascii_a_decimal_num1:
