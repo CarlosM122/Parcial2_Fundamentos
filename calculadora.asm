@@ -253,6 +253,9 @@ mostrar_resultado:
 	mov edx, lnlinea
 	int 80h
 
+	mov ecx, resultado
+    	mov edx, 10
+
 	jmp _start
 
 ; Función para convertir ASCII a decimal (num1)
