@@ -210,3 +210,74 @@ mostrar_resultado:
 	mov edx, lnlinea
 	int 80h
 	jmp _start
+
+ascii_a_decimal_num1:
+    	xor eax, eax
+    	xor ecx, ecx
+    	mov esi, num1
+    	movzx ebx, byte [esi]  ; Cargar el primer carácter
+    	cmp bl, '-'            ; Comprobar si el número es negativo
+    	je negativo_num1
+
+convertir_num1:
+    	mov cl, byte [esi]
+    	cmp cl, 10            ; Verificar si es salto de línea
+    	je fin_conversion1
+    	sub cl, '0'
+    	imul eax, eax, 10
+    	add eax, ecx
+    	inc esi
+    	jmp convertir_num1
+
+negativo_num1:
+    	inc esi               ; Saltar el signo
+    	jmp convertir_num1
+
+fin_conversion1:
+    	mov [num1_decimal], eax
+    	ret
+
+; Función para convertir ASCII a decimal (num2)
+ascii_a_decimal_num2:
+    	xor eax, eax
+    	xor ecx, ecx
+    	mov esi, num2
+    	movzx ebx, byte [esi]  ; Cargar el primer carácter
+    	cmp bl, '-'            ; Comprobar si el número es negativo
+    	je negativo_num2
+
+convertir_num2:
+    	mov cl, byte [esi]
+    	cmp cl, 10            ; Verificar si es salto de línea
+    	je fin_conversion2
+    	sub cl, '0'
+    	imul eax, eax, 10
+    	add eax, ecx
+    	inc esi
+    	jmp convertir_num2
+
+negativo_num2:
+    	inc esi               ; Saltar el signo
+    	jmp convertir_num2
+
+fin_conversion2:
+    	mov [num2_decimal], eax
+    	ret
+
+; Función para convertir decimal a ASCII
+decimal_a_ascii:
+    	mov edi, resultado + 9
+    	mov ecx, 10
+    	mov byte [edi], 0
+    	dec edi
+convierte_a_ascii:
+    	xor edx, edx
+    	div ecx
+    	add dl, '0'
+    	mov [edi], dl
+    	dec edi
+    	test eax, eax
+    	jnz convierte_a_ascii
+    	inc edi
+    	mov ecx, edi
+    	ret
