@@ -179,7 +179,6 @@ sumar:
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	add eax, [num2_decimal]
-	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
  
@@ -188,7 +187,6 @@ restar:
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	sub eax, [num2_decimal]
-	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
 
@@ -198,7 +196,6 @@ multiplicar:
     	mov eax, [num1_decimal]
     	mov ebx, [num2_decimal]
     	mul ebx
-	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
 
@@ -226,6 +223,7 @@ error_division_cero:
 limpiar_resultado:
     	mov ecx, resultado
     	mov edx, 10
+	jmp _start
 
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
@@ -262,8 +260,6 @@ mostrar_resultado:
 	int 80h
 
 	call limpiar_resultado
-
-	jmp _start
 
 ; Función para convertir ASCII a decimal (num1)
 ascii_a_decimal_num1:
