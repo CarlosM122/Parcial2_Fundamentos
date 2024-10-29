@@ -1,5 +1,7 @@
 section .data
-
+ 
+	; Mensajes
+ 
 	msg1		db		10,'-Calculadora-',10,0
 	lmsg1		equ		$ - msg1
  
@@ -210,6 +212,7 @@ dividir:
     	jmp mostrar_resultado
 
 error_division_cero:
+
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg12
@@ -223,6 +226,7 @@ limpiar_resultado:
 	jmp _start
 
 salir:
+	; Imprimimos en pantalla dos nuevas lineas
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, nlinea
@@ -326,5 +330,5 @@ convierte_a_ascii:
     	test eax, eax
     	jnz convierte_a_ascii
     	inc edi
-    	mov ecx, edi
-    	ret
+    	mov ecx, edi
+    	ret
