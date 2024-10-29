@@ -175,18 +175,24 @@ _start:
 	jmp _start
  
 sumar:
+	xor eax, eax             ; Reiniciar eax antes de sumar
+    	xor ebx, ebx
     	mov eax, [num1_decimal]
     	add eax, [num2_decimal]
     	call decimal_a_ascii
     	jmp mostrar_resultado
  
 restar:
+	xor eax, eax             ; Reiniciar eax antes de sumar
+    	xor ebx, ebx
     	mov eax, [num1_decimal]
     	sub eax, [num2_decimal]
     	call decimal_a_ascii
     	jmp mostrar_resultado
 
 multiplicar:
+	xor eax, eax             ; Reiniciar eax antes de sumar
+    	xor ebx, ebx
     	mov eax, [num1_decimal]
     	mov ebx, [num2_decimal]
     	mul ebx
@@ -194,6 +200,8 @@ multiplicar:
     	jmp mostrar_resultado
 
 dividir:
+	xor eax, eax             ; Reiniciar eax antes de sumar
+    	xor ebx, ebx
     	mov eax, [num1_decimal]
     	mov ebx, [num2_decimal]
     	cmp ebx, 0
