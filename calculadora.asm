@@ -211,7 +211,6 @@ dividir:
     	je error_division_cero    ; Saltar a error si es cero
     	xor edx, edx              ; Limpiar edx para división
     	div ebx                   ; Dividir edx:eax entre ebx
-    	call limpiar_resultado
     	call decimal_a_ascii      ; Convertir el resultado a ASCII
     	jmp mostrar_resultado
 
@@ -261,6 +260,8 @@ mostrar_resultado:
 	mov ecx, nlinea
 	mov edx, lnlinea
 	int 80h
+
+	call limpiar_resultado
 
 	jmp _start
 
