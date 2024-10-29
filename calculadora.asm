@@ -179,126 +179,30 @@ sumar:
     	add eax, [num2_decimal]
     	call decimal_a_ascii
     	jmp mostrar_resultado
-
-	jmp _start
  
 restar:
-	; Movemos los numeros ingresados a los registro AL y BL
-	mov al, [num1]
-	mov bl, [num2]
- 
-	; Convertimos los valores ingresados de ascii a decimal
-	sub al, '0'
-	sub bl, '0'
- 
-	; Restamos el registro AL y BL
-	sub al, bl
- 
-	; Convertimos el resultado de la resta de decimal a ascii
-	add al, '0'
- 
-	; Movemos el resultado a un espacio reservado en la memoria
-	mov [resultado], al
- 
-	; Imprimimos en pantalla el mensaje 9
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg10
-	mov edx, lmsg10
-	int 80h
- 
-	; Imprimimos en pantalla el resultado
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, resultado
-	mov edx, 1
-	int 80h
- 
-	; Finalizamos el programa
-	jmp _start
- 
+    	mov eax, [num1_decimal]
+    	sub eax, [num2_decimal]
+    	call decimal_a_ascii
+    	jmp mostrar_resultado
+
 multiplicar:
- 
-	; Movemos los numeros ingresados a los registro AL y BL
-	mov al, [num1]
-	mov bl, [num2]
- 
-	; Convertimos los valores ingresados de ascii a decimal
-	sub al, '0'
-	sub bl, '0'
- 
-	; Multiplicamos. AX = AL X BL
-	mul bl
- 
-	; Convertimos el resultado de la resta de decimal a ascii
-	add ax, '0'
- 
-	; Movemos el resultado a un espacio reservado en la memoria
-	mov [resultado], ax
- 
-	; Imprimimos en pantalla el mensaje 9
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg10
-	mov edx, lmsg10
-	int 80h
- 
-	; Imprimimos en pantalla el resultado
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, resultado
-	mov edx, 1
-	int 80h
- 
-	; Finalizamos el programa
-	jmp _start
- 
+    	mov eax, [num1_decimal]
+    	mov ebx, [num2_decimal]
+    	mul ebx
+    	call decimal_a_ascii
+    	jmp mostrar_resultado
+
 dividir:
+    	mov eax, [num1_decimal]
+    	mov ebx, [num2_decimal]
+    	cmp ebx, 0
+    	je error_division_cero
+    	div ebx
+    	call decimal_a_ascii
+    	jmp mostrar_resultado
 
-	mov ah, [num2]
-	sub ah, '0'
- 	cmp ah, 0
-	je divisionPorcero
-
-	; Movemos los numeros ingresados a los registro AL y BL
-	mov al, [num1]
-	mov bl, [num2]
- 
-	; Igualamos a cero los registros DX y AH
-	mov dx, 0
-	mov ah, 0
- 
-	; Convertimos los valores ingresados de ascii a decimal
-	sub al, '0'
-	sub bl, '0'
- 
-	; Division. AL = AX / BL. AX = AH:AL
-	div bl
- 
-	; Convertimos el resultado de la resta de decimal a ascii
-	add ax, '0'
- 
-	; Movemos el resultado a un espacio reservado en la memoria
-	mov [resultado], ax
- 
-	; Print on screen the message 9
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, msg10
-	mov edx, lmsg10
-	int 80h
- 
-	; Imprimimos en pantalla el resultado
-	mov eax, 4
-	mov ebx, 1
-	mov ecx, resultado
-	mov edx, 1
-	int 80h
- 
-	; Finalizamos el programa
-	jmp _start
-
-divisionPorcero:
+error_division_cero:
 
 	mov eax, 4
 	mov ebx, 1
@@ -334,6 +238,14 @@ mostrar_resultado:
     	mov ecx, resultado
     	mov edx, 10
     	int 80h
+
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, nlinea
+	mov edx, lnlinea
+	int 80h
+
+	jmp _start
 
 ; Función para convertir ASCII a decimal (num1)
 ascii_a_decimal_num1:
