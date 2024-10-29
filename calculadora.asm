@@ -179,6 +179,7 @@ sumar:
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	add eax, [num2_decimal]
+	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
  
@@ -187,6 +188,7 @@ restar:
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	sub eax, [num2_decimal]
+	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
 
@@ -196,18 +198,21 @@ multiplicar:
     	mov eax, [num1_decimal]
     	mov ebx, [num2_decimal]
     	mul ebx
+	call limpiar_resultado
     	call decimal_a_ascii
     	jmp mostrar_resultado
 
 dividir:
-	xor eax, eax             ; Reiniciar eax antes de sumar
+	xor eax, eax
     	xor ebx, ebx
-    	mov eax, [num1_decimal]
-    	mov ebx, [num2_decimal]
-    	cmp ebx, 0
-    	je error_division_cero
-    	div ebx
-    	call decimal_a_ascii
+    	mov eax, [num1_decimal]   ; Colocar el primer número en eax
+    	mov ebx, [num2_decimal]   ; Colocar el segundo número en ebx
+    	cmp ebx, 0                ; Comprobar si el divisor es cero
+    	je error_division_cero    ; Saltar a error si es cero
+    	xor edx, edx              ; Limpiar edx para división
+    	div ebx                   ; Dividir edx:eax entre ebx
+    	call limpiar_resultado
+    	call decimal_a_ascii      ; Convertir el resultado a ASCII
     	jmp mostrar_resultado
 
 error_division_cero:
@@ -218,6 +223,10 @@ error_division_cero:
 	mov edx, lmsg12
 	int 80h
 	jmp _start
+
+limpiar_resultado:
+    	mov ecx, resultado
+    	mov edx, 10
 
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
@@ -252,9 +261,6 @@ mostrar_resultado:
 	mov ecx, nlinea
 	mov edx, lnlinea
 	int 80h
-
-	mov ecx, resultado
-    	mov edx, 10
 
 	jmp _start
 
