@@ -220,11 +220,6 @@ error_division_cero:
 	int 80h
 	jmp _start
 
-limpiar_resultado:
-    	mov ecx, resultado
-    	mov edx, 10
-	jmp _start
-
 salir:
 	; Imprimimos en pantalla dos nuevas lineas
 	mov eax, 4
@@ -260,6 +255,11 @@ mostrar_resultado:
 	int 80h
 
 	call limpiar_resultado
+
+limpiar_resultado:
+    	mov ecx, resultado
+    	mov edx, 10
+	jmp _start
 
 ; Función para convertir ASCII a decimal (num1)
 ascii_a_decimal_num1:
