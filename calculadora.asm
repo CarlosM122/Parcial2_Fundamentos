@@ -43,7 +43,7 @@ section .data
  
 section .bss
  
-	; Espacios en la memoria reservados para almacenar los valores introducidos por el usuario y el resultado de la operacion.
+	; Espacios en la memoria reservados
  
 	opcion:		resb 	2
 	num1:		resb	5
@@ -57,14 +57,14 @@ section .text
 	global _start
  
 _start:
-	; Imprimimos en pantalla el mensaje 1
+	; Imprimimos mensaje 1
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg1
 	mov edx, lmsg1
 	int 80h
  
-	; Imprimimos en pantalla el mensaje 2
+	; Imprimimos mensaje 2
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg2
@@ -122,32 +122,29 @@ _start:
 	mov edx, lmsg7
 	int 80h
  
-	; Print on screen the message 8
+	; Imprimimos en pantalla el mensaje 8
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg8
 	mov edx, lmsg8
 	int 80h
 
-	; Print on screen the message 9
+	; Imprimimos en pantalla el mensaje 9
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg9
 	mov edx, lmsg9
 	int 80h
  
-	; Obtenemos la opcion seleccionada por el usuario
+	; Obtenemos la opcion seleccionada
 	mov ebx, 0
 	mov ecx, opcion
 	mov edx, 2
 	mov eax, 3
 	int 80h
  
-	mov ah, [opcion]	; Movemos la opcion seleccionada a el registro AH
+	mov ah, [opcion]
 	sub ah, '0'		; Convertimos el valor ingresado de ascii a decimal
- 
-	; Comparamos el valor ingresado por el usuario para saber que operacion realizar.
-	; JE = Jump if equal = Saltamos si el valor comparado es igual
  
 	cmp ah, 1
 	je sumar
@@ -164,8 +161,8 @@ _start:
 	cmp ah, 5
 	je salir
  
-	; Si el valor ingresado no cumple con ninguna de las condiciones anteriores entonces mostramos un mensaje de error y finalizamos
-	; la ejecucion del programa
+	; Si el valor ingresado no cumple con ninguna de las condiciones anteriores entonces mostramos un mensaje de error
+
 	mov eax, 4
 	mov ebx, 1
 	mov ecx, msg11
@@ -183,7 +180,7 @@ sumar:
     	jmp mostrar_resultado
  
 restar:
-	xor eax, eax             ; Reiniciar eax antes de sumar
+	xor eax, eax             
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	sub eax, [num2_decimal]
@@ -191,7 +188,7 @@ restar:
     	jmp mostrar_resultado
 
 multiplicar:
-	xor eax, eax             ; Reiniciar eax antes de sumar
+	xor eax, eax             
     	xor ebx, ebx
     	mov eax, [num1_decimal]
     	mov ebx, [num2_decimal]
@@ -202,13 +199,13 @@ multiplicar:
 dividir:
 	xor eax, eax
     	xor ebx, ebx
-    	mov eax, [num1_decimal]   ; Colocar el primer número en eax
-    	mov ebx, [num2_decimal]   ; Colocar el segundo número en ebx
-    	cmp ebx, 0                ; Comprobar si el divisor es cero
-    	je error_division_cero    ; Saltar a error si es cero
-    	xor edx, edx              ; Limpiar edx para división
-    	div ebx                   ; Dividir edx:eax entre ebx
-    	call decimal_a_ascii      ; Convertir el resultado a ASCII
+    	mov eax, [num1_decimal]  
+    	mov ebx, [num2_decimal]   
+    	cmp ebx, 0                
+    	je error_division_cero    
+    	xor edx, edx            
+    	div ebx                  
+    	call decimal_a_ascii     
     	jmp mostrar_resultado
 
 error_division_cero:
@@ -241,7 +238,7 @@ mostrar_resultado:
     	mov edx, lmsg10
     	int 80h
 
-    ; Mostrar el resultado
+        ; Mostrar el resultado
     	mov eax, 4
     	mov ebx, 1
     	mov ecx, resultado
