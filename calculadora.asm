@@ -257,9 +257,13 @@ mostrar_resultado:
 	call limpiar_resultado
 
 limpiar_resultado:
-    	mov ecx, resultado
-    	mov edx, 10
-	jmp _start
+    	mov ecx, 10            ; Número de bytes a limpiar en "resultado"
+    	mov edi, resultado      ; Apuntar al inicio de "resultado"
+limpiar_loop:
+    	mov byte [edi], 0       ; Limpiar cada byte
+    	inc edi                 ; Avanzar al siguiente byte
+    	loop limpiar_loop       ; Repetir hasta que ecx llegue a 0
+    	ret
 
 ; Función para convertir ASCII a decimal (num1)
 ascii_a_decimal_num1:
